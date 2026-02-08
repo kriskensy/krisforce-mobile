@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "krisforce-mobile",
+    "scheme": "krisforce-mobile", 
     "slug": "krisforce-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
