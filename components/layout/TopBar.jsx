@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../lib/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 export default function TopBar() {
   const { profile, logoUrl } = useAuth();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+
 
   const fullName = profile ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim() : '';
+  const userRole = profile ? `${profile.roleName}` : '';
 
   return (
     <View
@@ -30,19 +34,25 @@ export default function TopBar() {
              </Text>
           </View>
           <View>
-            <Text style={{ color: '#9ca3af', fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>Manager</Text>
+            <Text style={{ color: '#9ca3af', fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>{userRole}</Text>
             <Text style={{ color: '#f9fafb', fontSize: 16, fontWeight: 'bold' }}>
               {fullName}
             </Text>
           </View>
       </View>
 
-      {logoUrl && (
-        <Image
-          source={{ uri: logoUrl }}
-          style={{ width: 80, height: 30, resizeMode: 'contain', opacity: 0.8 }}
-        />
-      )}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {logoUrl && (
+          <TouchableOpacity onPress={() => router.push('/(tabs)/dashboard')} activeOpacity={0.7}>
+            <View style={{ width: 40, height: 40, borderRadius: 12, overflow: 'hidden'}}>
+              <Image
+                source={{ uri: logoUrl }}
+                style={{ width: '100%', height: '100%', borderRadius: 12, resizeMode: 'contain', opacity: 0.8 }}
+              />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 }
