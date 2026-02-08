@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default function StatCard({ label, value, description }) {
+export default function StatCard({ label, value, description, valueColor }) {
   return (
     <View
       style={{
@@ -20,6 +20,7 @@ export default function StatCard({ label, value, description }) {
           fontSize: 20,
           fontWeight: '700',
           marginTop: 4,
+          color: valueColor ? valueColor : '#ffffff',
         }}
       >
         {value}
