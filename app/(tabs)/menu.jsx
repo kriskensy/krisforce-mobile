@@ -2,9 +2,14 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import AppShell from '../../components/layout/AppShell';
 import { useAuth } from '../../lib/AuthContext';
+import { formatDate } from '../../lib/utils/formatDate';
 
 export default function MenuScreen() {
   const { profile, signOut } = useAuth();
+
+  const userRole = profile ? `${profile.roleName}` : '';
+
+  console.log ('data: ', profile.createdAt);
 
   return (
     <AppShell>
@@ -27,7 +32,7 @@ export default function MenuScreen() {
           }}
         >
           <Text style={{ color: '#9ca3af', fontSize: 12, marginBottom: 4 }}>
-            Manager summary
+            {userRole} summary
           </Text>
           <Text
             style={{
@@ -37,15 +42,16 @@ export default function MenuScreen() {
               marginBottom: 8,
             }}
           >
-            {profile
-              ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim()
-              : '—'}
+            {profile ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim() : '—'}
           </Text>
           <Text style={{ color: '#9ca3af', fontSize: 13 }}>
-            Role: {profile?.roleName || profile?.roleCode || 'manager'}
+            Role: {profile?.roleName || profile?.roleCode || '-'}
           </Text>
           <Text style={{ color: '#9ca3af', fontSize: 13, marginTop: 4 }}>
             Email: {profile?.email || '—'}
+          </Text>
+          <Text style={{ color: '#9ca3af', fontSize: 13, marginTop: 4 }}>
+            Registered since: {formatDate(profile?.createdAt)}
           </Text>
         </View>
 

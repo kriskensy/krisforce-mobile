@@ -67,7 +67,7 @@ export default function RootLayout() {
     try {
       const { data: userRow } = await supabase
         .from('users')
-        .select('id, email, role_id')
+        .select('id, email, role_id, created_at')
         .eq('id', userId)
         .single();
 
@@ -91,6 +91,7 @@ export default function RootLayout() {
           email: userRow.email,
           roleCode: roleRow?.code,
           roleName: roleRow?.name,
+          createdAt: userRow?.created_at,
           firstName: profileRow?.first_name,
           lastName: profileRow?.last_name,
         });
