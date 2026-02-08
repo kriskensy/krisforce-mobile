@@ -10,7 +10,7 @@ export default function CategoriesScreen() {
 
   return (
     <AppShell>
-      <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16, gap: 16 }}>
+      <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16 }}>
         <CategoryCard
           label="Clients"
           description="View last added clients."

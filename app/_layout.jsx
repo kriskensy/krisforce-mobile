@@ -1,113 +1,20 @@
 import "../global.css";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { Stack, useRouter, useSegments } from 'expo-router';
-import { supabase } from '../lib/supabase';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from 'expo-status-bar';
 import TopBar from '../components/layout/TopBar';
-import { AuthContext } from '../lib/AuthContext'; 
+import { AuthProvider, useAuth } from '../lib/AuthContext'; 
 
-export default function RootLayout() {
-  const [session, setSession] = useState(null);
-  const [isManagerOrAdmin, setIsManagerOrAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [profile, setProfile] = useState(null);
-  const [logoUrl, setLogoUrl] = useState(null);
-  const [brandName, setBrandName] = useState(null);
-
+function RootLayoutNav() {
+  const {session, loading, isManagerOrAdmin} = useAuth();
   const router = useRouter();
   const segments = useSegments();
 
-  //initial data
-  useEffect(() => {
-    async function init() {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (!error && data?.session) {
-          setSession(data.session);
-          if (data.session.user) {
-            await loadUserData(data.session.user.id);
-          }
-        }
-        
-        const { data: contentData } = await supabase
-          .from('site_content')
-          .select('key, value')
-          .in('key', ['nav_brand_logo', 'nav_brand_name']);
-
-        if (contentData) {
-          const logoItem = contentData.find(item => item.key === 'nav_brand_logo');
-          const nameItem = contentData.find(item => item.key === 'nav_brand_name');
-
-          if (logoItem?.value) setLogoUrl(logoItem.value);
-          if (nameItem?.value) setBrandName(nameItem.value);
-        }
-
-      } catch (error) {
-        console.error('Init error:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    init();
-
-    //if session change
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-      setSession(newSession);
-      if (newSession?.user) {
-        await loadUserData(newSession.user.id);
-      } else {
-        setIsManagerOrAdmin(false);
-        setProfile(null);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  async function loadUserData(userId) {
-    try {
-      const { data: userRow } = await supabase
-        .from('users')
-        .select('id, email, role_id, created_at')
-        .eq('id', userId)
-        .single();
-
-      if (userRow) {
-        const { data: roleRow } = await supabase
-          .from('roles')
-          .select('code, name')
-          .eq('id', userRow.role_id)
-          .single();
-        
-        setIsManagerOrAdmin(roleRow?.code === 'manager' || roleRow?.code === 'admin');
-
-        const { data: profileRow } = await supabase
-          .from('user_profiles')
-          .select('first_name, last_name')
-          .eq('user_id', userRow.id)
-          .single();
-        
-        setProfile({
-          id: userRow.id,
-          email: userRow.email,
-          roleCode: roleRow?.code,
-          roleName: roleRow?.name,
-          createdAt: userRow?.created_at,
-          firstName: profileRow?.first_name,
-          lastName: profileRow?.last_name,
-        });
-      }
-    } catch (error) {
-      console.error("Error loading user data", error);
-    }
-  }
-
   //redirect for non manager/admin users
   useEffect(() => {
-    if (isLoading) return;
+    if (loading) return;
 
     const inAuthGroup = segments[0] === 'auth';
     const isManagerScreen = segments[1] === 'manager-only';//check if user is on manager-only screen
@@ -121,53 +28,44 @@ export default function RootLayout() {
     if (session && isManagerOrAdmin && inAuthGroup)
       router.replace('/(tabs)/dashboard');
 
-  }, [session, segments, isLoading, isManagerOrAdmin]);
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    setSession(null); 
-    setIsManagerOrAdmin(false);
-  }
+  }, [session, segments, loading, isManagerOrAdmin]);
 
   //spinner
-  if (isLoading) {
+  if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#020617',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <View style={{ flex: 1, backgroundColor: '#020617', alignItems: 'center', justifyContent: 'center' }} >
         <ActivityIndicator size="large" color="#0ea5e9" />
       </View>
     );
   }
 
-  const authValue = { session, isManagerOrAdmin, profile, logoUrl, brandName, signOut };
-
   return (
-    <AuthContext.Provider value={authValue}>
-      <SafeAreaProvider>
-        <StatusBar style="light" backgroundColor="#f3f4f6" />
-        
-        <Stack screenOptions={{
-          header: () => <TopBar />,
-          contentStyle: { backgroundColor: '#f3f4f6' }
-        }}>
-          <Stack.Screen name="auth" options={{ headerShown: false }} />
+    <SafeAreaProvider>
+      <StatusBar style="light" backgroundColor="#f3f4f6" />
+      
+      <Stack screenOptions={{
+        header: () => <TopBar />,
+        contentStyle: { backgroundColor: '#f3f4f6' }
+      }}>
+        <Stack.Screen name="auth" options={{ headerShown: false }} />
 
-          {isManagerOrAdmin ? (
-            <>
-              <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-              <Stack.Screen name="protected" options={{ headerShown: true }} />
-            </>
-          ) : (
-            <Stack.Screen name="(tabs)" options={{ href: null }} />
-          )}
-        </Stack>
-      </SafeAreaProvider>
-    </AuthContext.Provider>
+        {isManagerOrAdmin ? (
+          <>
+            <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
+            <Stack.Screen name="protected" options={{ headerShown: true }} />
+          </>
+        ) : (
+          <Stack.Screen name="(tabs)" options={{ href: null }} />
+        )}
+      </Stack>
+    </SafeAreaProvider>
   );
+}
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootLayoutNav />
+    </AuthProvider>
+  )
 }
