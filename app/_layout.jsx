@@ -14,6 +14,7 @@ export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [logoUrl, setLogoUrl] = useState(null);
+  const [brandName, setBrandName] = useState(null);
 
   const router = useRouter();
   const segments = useSegments();
@@ -30,14 +31,17 @@ export default function RootLayout() {
           }
         }
         
-        const { data: logoData } = await supabase
+        const { data: contentData } = await supabase
           .from('site_content')
-          .select('value')
-          .eq('key', 'nav_brand_logo')
-          .single();
+          .select('key, value')
+          .in('key', ['nav_brand_logo', 'nav_brand_name']);
 
-        if (logoData?.value) {
-          setLogoUrl(logoData.value);
+        if (contentData) {
+          const logoItem = contentData.find(item => item.key === 'nav_brand_logo');
+          const nameItem = contentData.find(item => item.key === 'nav_brand_name');
+
+          if (logoItem?.value) setLogoUrl(logoItem.value);
+          if (nameItem?.value) setBrandName(nameItem.value);
         }
 
       } catch (error) {
@@ -141,7 +145,7 @@ export default function RootLayout() {
     );
   }
 
-  const authValue = { session, isManagerOrAdmin, profile, logoUrl, signOut };
+  const authValue = { session, isManagerOrAdmin, profile, logoUrl, brandName, signOut };
 
   return (
     <AuthContext.Provider value={authValue}>

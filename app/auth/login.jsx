@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import { supabase } from '../../lib/supabase';
 import { Eye, EyeOff } from 'lucide-react-native';
+import { useAuth } from '../../lib/AuthContext';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { brandName } = useAuth();
 
   async function handleLogin() {
     if (!email || !password) {
@@ -44,7 +46,7 @@ export default function LoginScreen() {
           marginBottom: 24,
         }}
       >
-        KrisForce Manager
+        {brandName || 'KrisForce'} Manager
       </Text>
 
       <TextInput

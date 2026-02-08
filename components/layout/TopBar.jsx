@@ -28,19 +28,21 @@ export default function TopBar() {
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {profile && (
           <View style={{ width: 40, height: 40, backgroundColor: '#0ea5e9', borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
-             <Text style={{ color: 'white', fontWeight: 'bold' }}>
-               {profile?.firstName?.[0]}{profile?.lastName?.[0]}
-             </Text>
-          </View>
-          <View>
-            <Text style={{ color: '#9ca3af', fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>{userRole}</Text>
-            <Text style={{ color: '#f9fafb', fontSize: 16, fontWeight: 'bold' }}>
-              {fullName}
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>
+              {profile?.firstName?.[0]}{profile?.lastName?.[0]}
             </Text>
           </View>
+        )}
+        <View>
+          <Text style={{ color: '#9ca3af', fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>{userRole}</Text>
+          <Text style={{ color: '#f9fafb', fontSize: 16, fontWeight: 'bold' }}>
+            {fullName}
+          </Text>
+        </View>
       </View>
-
+      
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {logoUrl && (
           <TouchableOpacity onPress={() => router.push('/(tabs)/dashboard')} activeOpacity={0.7}>
