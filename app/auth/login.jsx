@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert, Platform, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { supabase } from '../../lib/supabase';
 import { Eye, EyeOff } from 'lucide-react-native';
 import { useAuth } from '../../lib/AuthContext';
@@ -29,23 +29,21 @@ export default function LoginScreen() {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#020617',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 24,
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}//ios can't handle displaying keyboard correct
+      style={{ flex: 1, backgroundColor: '#020617' }}
     >
-      <Text
-        style={{
-          color: '#f9fafb',
-          fontSize: 24,
-          fontWeight: '700',
-          marginBottom: 24,
+      <ScrollView
+        contentContainerStyle={{ 
+            flexGrow: 1, 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            paddingHorizontal: 24,
+            paddingBottom: 40
         }}
+        keyboardShouldPersistTaps="handled" //button click even if keyboard is open
       >
+      <Text style={{ color: '#f9fafb', fontSize: 24, fontWeight: '700', marginBottom: 24, }} >
         {brandName || 'KrisForce'} Manager
       </Text>
 
@@ -107,23 +105,24 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        onPress={handleLogin}
-        disabled={loading}
-        style={{
-          width: '100%',
-          borderRadius: 8,
-          backgroundColor: loading ? '#0ea5e9aa' : '#0ea5e9',
-          paddingVertical: 12,
-          alignItems: 'center',
-        }}
-      >
-        {loading ? (
-          <ActivityIndicator color="#f9fafb" />
-        ) : (
-          <Text style={{ color: '#f9fafb', fontWeight: '600' }}>Log in</Text>
-        )}
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          onPress={handleLogin}
+          disabled={loading}
+          style={{
+            width: '100%',
+            borderRadius: 8,
+            backgroundColor: loading ? '#0ea5e9aa' : '#0ea5e9',
+            paddingVertical: 12,
+            alignItems: 'center',
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator color="#f9fafb" />
+          ) : (
+            <Text style={{ color: '#f9fafb', fontWeight: '600' }}>Log in</Text>
+          )}
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
