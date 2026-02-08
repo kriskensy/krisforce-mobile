@@ -9,8 +9,6 @@ export default function MenuScreen() {
 
   const userRole = profile ? `${profile.roleName}` : '';
 
-  console.log ('data: ', profile.createdAt);
-
   return (
     <AppShell>
       <View
