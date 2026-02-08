@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useAuth } from '../_layout';
+import { useAuth } from '../../lib/AuthContext';
 
 export default function ManagerOnlyScreen() {
   const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+  }
 
   return (
     <View
@@ -37,7 +41,7 @@ export default function ManagerOnlyScreen() {
         This mobile application is available only for users with the Manager role.
       </Text>
       <TouchableOpacity
-        onPress={signOut}
+        onPress={handleLogout}
         style={{
           borderRadius: 8,
           borderWidth: 1,

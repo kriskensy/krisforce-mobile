@@ -10,7 +10,7 @@ import { AuthContext } from '../lib/AuthContext';
 
 export default function RootLayout() {
   const [session, setSession] = useState(null);
-  const [isManager, setIsManager] = useState(false);
+  const [isManagerOrAdmin, setIsManagerOrAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [logoUrl, setLogoUrl] = useState(null);
@@ -55,7 +55,7 @@ export default function RootLayout() {
       if (newSession?.user) {
         await loadUserData(newSession.user.id);
       } else {
-        setIsManager(false);
+        setIsManagerOrAdmin(false);
         setProfile(null);
       }
     });
@@ -78,7 +78,7 @@ export default function RootLayout() {
           .eq('id', userRow.role_id)
           .single();
         
-        setIsManager(roleRow?.code === 'manager');
+        setIsManagerOrAdmin(roleRow?.code === 'manager' || roleRow?.code === 'admin');
 
         const { data: profileRow } = await supabase
           .from('user_profiles')
@@ -101,21 +101,28 @@ export default function RootLayout() {
     }
   }
 
-  //redirect only if state != session
+  //redirect for non manager/admin users
   useEffect(() => {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === 'auth';
-    
-    if (!session && !inAuthGroup) {
+    const isManagerScreen = segments[1] === 'manager-only';//check if user is on manager-only screen
+
+    if (!session && (!inAuthGroup || isManagerScreen))
       router.replace('/auth/login');
-    } else if (session && inAuthGroup) {
+
+    if (session && !isManagerOrAdmin && !isManagerScreen)
+      router.replace('/auth/manager-only');
+    
+    if (session && isManagerOrAdmin && inAuthGroup)
       router.replace('/(tabs)/dashboard');
-    }
-  }, [session, segments, isLoading]);
+
+  }, [session, segments, isLoading, isManagerOrAdmin]);
 
   async function signOut() {
     await supabase.auth.signOut();
+    setSession(null); 
+    setIsManagerOrAdmin(false);
   }
 
   //spinner
@@ -134,7 +141,7 @@ export default function RootLayout() {
     );
   }
 
-  const authValue = { session, isManager, profile, logoUrl, signOut };
+  const authValue = { session, isManagerOrAdmin, profile, logoUrl, signOut };
 
   return (
     <AuthContext.Provider value={authValue}>
@@ -146,8 +153,15 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: '#f3f4f6' }
         }}>
           <Stack.Screen name="auth" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-          <Stack.Screen name="protected" options={{ headerShown: true }} />
+
+          {isManagerOrAdmin ? (
+            <>
+              <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
+              <Stack.Screen name="protected" options={{ headerShown: true }} />
+            </>
+          ) : (
+            <Stack.Screen name="(tabs)" options={{ href: null }} />
+          )}
         </Stack>
       </SafeAreaProvider>
     </AuthContext.Provider>
