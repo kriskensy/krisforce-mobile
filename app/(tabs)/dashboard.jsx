@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import AppShell from '../../components/layout/AppShell';
 import { supabase } from '../../lib/supabase';
+import { formatCurrency } from '../../lib/utils/formatCurrency';
 
 function StatCard({ label, value, description }) {
   return (
@@ -105,12 +106,12 @@ export default function DashboardScreen() {
       );
 
       setStats({
-        totalRevenue: `${totalRevenue.toFixed(2)} PLN`,
-        lastMonthRevenue: `${lastMonthRevenue.toFixed(2)} PLN`,
+        totalRevenue: `${formatCurrency(totalRevenue.toFixed(2), 'EUR')}`,
+        lastMonthRevenue: `${formatCurrency(lastMonthRevenue.toFixed(2), 'EUR')}`,
         categoriesCount: String(categoriesCount),
         openOrders: String(openOrders ?? 0),
         openInvoices: String(openInvoices ?? 0),
-        lastPayments: `${(lastPayments ?? 0).toFixed(2)} PLN`,
+        lastPayments: `${formatCurrency((lastPayments ?? 0).toFixed(2), 'EUR')}`,
       });
 
       setLoading(false);

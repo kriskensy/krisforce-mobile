@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
+import { formatCurrency } from '../../../lib/utils/formatCurrency';
 
 export default function InvoiceDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -115,13 +116,13 @@ export default function InvoiceDetailsScreen() {
             Status: {statusName || '—'}
           </Text>
           <Text style={{ color: '#e5e7eb', fontSize: 16, marginTop: 12 }}>
-            Total: {total.toFixed(2)} PLN
+            Total: {formatCurrency(total.toFixed(2), 'EUR')}
           </Text>
           <Text style={{ color: '#22c55e', fontSize: 14, marginTop: 4 }}>
-            Paid: {paid.toFixed(2)} PLN
+            Paid: {formatCurrency(paid.toFixed(2), 'EUR')}
           </Text>
           <Text style={{ color: '#f97316', fontSize: 14, marginTop: 4 }}>
-            Outstanding: {outstanding.toFixed(2)} PLN
+            Outstanding: {formatCurrency(outstanding.toFixed(2), 'EUR')}
           </Text>
         </View>
       </View>

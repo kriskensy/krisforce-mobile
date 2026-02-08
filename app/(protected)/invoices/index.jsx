@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, ActivityIndicator} from 'react-
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
-
+import { formatCurrency } from '../../../lib/utils/formatCurrency';
 
 export default function InvoicesListScreen() {
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ export default function InvoicesListScreen() {
           Date: {item.invoice_date?.slice(0, 10)}
         </Text>
         <Text style={{ color: '#6b7280', fontSize: 13, marginTop: 4 }}>
-          Total: {Number(item.total_amount ?? 0).toFixed(2)} PLN
+          Total: {formatCurrency((item.total_amount ?? 0).toFixed(2), 'EUR')}
         </Text>
       </TouchableOpacity>
     );
