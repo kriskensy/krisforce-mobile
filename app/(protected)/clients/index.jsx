@@ -3,6 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
+import { Colors } from '../../../constants/Colors'
 
 export default function ClientsListScreen() {
   const [loading, setLoading] = useState(true);
@@ -32,19 +33,19 @@ export default function ClientsListScreen() {
       <TouchableOpacity
         onPress={() => router.push(`/clients/${item.id}`)}
         style={{
-          backgroundColor: '#020617',
+          backgroundColor: Colors.background,
           borderRadius: 12,
           padding: 16,
           borderWidth: 1,
-          borderColor: '#1e293b',
+          borderColor: Colors.border,
           marginBottom: 12,
         }}
       >
-        <Text style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
+        <Text style={{ color: Colors.text.secondary, fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
           {item.name}
         </Text>
-        <Text style={{ color: '#9ca3af', fontSize: 12 }}>NIP: {item.nip}</Text>
-        <Text style={{ color: '#6b7280', fontSize: 12, marginTop: 4 }}>
+        <Text style={{ color: Colors.text.muted, fontSize: 12 }}>NIP: {item.nip}</Text>
+        <Text style={{ color: Colors.text.subtle, fontSize: 12, marginTop: 4 }}>
           Created at: {item.created_at?.slice(0, 10)}
         </Text>
       </TouchableOpacity>
@@ -55,7 +56,7 @@ export default function ClientsListScreen() {
     <AppShell>
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16 }}>
         {loading ? (
-          <ActivityIndicator color="#0ea5e9" />
+          <ActivityIndicator color={Colors.primary} />
         ) : (
           <FlatList
             data={clients}

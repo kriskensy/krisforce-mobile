@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
+import { Colors } from '../constants/Colors'
 
 export default function RevenueChart({ data }) {
   if (!data || data.length === 0) return null;
 
-  const colors = ['#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+  const colors = Colors.charts;
 
   const chartData = data
     .filter(item => Number(item.total) > 0)
@@ -26,7 +27,7 @@ export default function RevenueChart({ data }) {
             {/* color spot */}
             <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: item.color, marginRight: 6 }} />
             
-            <Text style={{ color: '#9ca3af', fontSize: 12 }}>
+            <Text style={{ color: Colors.text.muted, fontSize: 12 }}>
               {item.text} ({Math.round((item.value / totalValue) * 100)}%)
             </Text>
           </View>
@@ -38,16 +39,16 @@ export default function RevenueChart({ data }) {
   return (
     <View
       style={{
-        backgroundColor: '#020617',
+        backgroundColor: Colors.background,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: '#1e293b',
+        borderColor: Colors.border,
         padding: 16,
         marginBottom: 12,
         alignItems: 'center',
       }}
     >
-      <Text style={{ fontSize: 14, fontWeight: '600', color: '#9ca3af', marginBottom: 20, alignSelf: 'flex-start' }}>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: Colors.text.muted, marginBottom: 20, alignSelf: 'flex-start' }}>
         Revenue by Category
       </Text>
 
@@ -58,13 +59,13 @@ export default function RevenueChart({ data }) {
         sectionAutoFocus
         radius={70}
         innerRadius={50}
-        innerCircleColor={'#020617'}
+        innerCircleColor={Colors.background}
         centerLabelComponent={() => (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 20, color: '#ffffff', fontWeight: 'bold' }}>
+            <Text style={{ fontSize: 20, color: Colors.text.white, fontWeight: 'bold' }}>
               {chartData.length}
             </Text>
-            <Text style={{ fontSize: 10, color: '#ffffff' }}>Categories</Text>
+            <Text style={{ fontSize: 10, color: Colors.text.white }}>Categories</Text>
           </View>
         )}
       />

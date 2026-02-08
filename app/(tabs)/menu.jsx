@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import AppShell from '../../components/layout/AppShell';
 import { useAuth } from '../../lib/AuthContext';
 import { formatDate } from '../../lib/utils/formatDate';
+import { Colors } from '../../constants/Colors'
 
 export default function MenuScreen() {
   const { profile, signOut } = useAuth();
@@ -16,25 +17,25 @@ export default function MenuScreen() {
           flex: 1,
           paddingHorizontal: 16,
           paddingTop: 24,
-          backgroundColor: '#0f172af2',
+          backgroundColor: Colors.appBackground,
         }}
       >
         <View
           style={{
-            backgroundColor: '#020617',
+            backgroundColor: Colors.background,
             borderRadius: 16,
             padding: 20,
             borderWidth: 1,
-            borderColor: '#1e293b',
+            borderColor: Colors.border,
             marginBottom: 24,
           }}
         >
-          <Text style={{ color: '#9ca3af', fontSize: 12, marginBottom: 4 }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 12, marginBottom: 4 }}>
             {userRole} summary
           </Text>
           <Text
             style={{
-              color: '#e5e7eb',
+              color: Colors.text.secondary,
               fontSize: 18,
               fontWeight: '700',
               marginBottom: 8,
@@ -42,13 +43,13 @@ export default function MenuScreen() {
           >
             {profile ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim() : '—'}
           </Text>
-          <Text style={{ color: '#9ca3af', fontSize: 13 }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 13 }}>
             Role: {profile?.roleName || profile?.roleCode || '-'}
           </Text>
-          <Text style={{ color: '#9ca3af', fontSize: 13, marginTop: 4 }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 13, marginTop: 4 }}>
             Email: {profile?.email || '—'}
           </Text>
-          <Text style={{ color: '#9ca3af', fontSize: 13, marginTop: 4 }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 13, marginTop: 4 }}>
             Registered since: {formatDate(profile?.createdAt)}
           </Text>
         </View>
@@ -58,12 +59,12 @@ export default function MenuScreen() {
           style={{
             borderRadius: 12,
             borderWidth: 1,
-            borderColor: '#b91c1c',
+            borderColor: Colors.button.danger,
             paddingVertical: 12,
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: '#fca5a5', fontWeight: '600' }}>Log out</Text>
+          <Text style={{ color: Colors.button.danger, fontWeight: '600' }}>Log out</Text>
         </TouchableOpacity>
       </View>
     </AppShell>

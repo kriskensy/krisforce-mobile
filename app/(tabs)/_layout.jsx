@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { LayoutDashboard, Layers, Menu as MenuIcon } from 'lucide-react-native';
+import { Colors } from '../../constants/Colors'
 
 export default function TabLayout() {
   return (
@@ -7,13 +8,13 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-            backgroundColor: '#020617',
-            borderTopColor: '#1e293b',
+            backgroundColor: Colors.background,
+            borderTopColor: Colors.border,
             height: 90,
             paddingBottom: 30
         },
-        tabBarActiveTintColor: '#38bdf8',
-        tabBarInactiveTintColor: '#64748b',
+        tabBarActiveTintColor: Colors.icon.active,
+        tabBarInactiveTintColor: Colors.icon.default,
       }}
     >
       <Tabs.Screen

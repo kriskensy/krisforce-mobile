@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabase';
 import { formatCurrency } from '../../lib/utils/formatCurrency';
 import StatCard from '../../components/StatCard';
 import RevenueChart from '../../components/RevenueChart';
+import { Colors } from '../../constants/Colors'
 
 export default function DashboardScreen() {
   const [loading, setLoading] = useState(true);
@@ -78,7 +79,7 @@ export default function DashboardScreen() {
               justifyContent: 'center',
             }}
           >
-            <ActivityIndicator color="#0ea5e9" />
+            <ActivityIndicator color={Colors.status.info} />
           </View>
         ) : (
           <>
@@ -86,13 +87,13 @@ export default function DashboardScreen() {
               label="Total revenue (all time)"
               value={stats.totalRevenue}
               description="Aggregated from all invoices."
-              valueColor="#16a34a"
+              valueColor={Colors.status.success}
             />
             <StatCard
               label="Outstanding debt"
               value={stats.totalDebt}
               description="Total unpaid invoices."
-              valueColor="#dc2626"
+              valueColor={Colors.status.danger}
             />
 
             <RevenueChart data={revenueData} />

@@ -1,26 +1,27 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Colors } from '../constants/Colors'
 
 export default function StatCard({ label, value, description, valueColor }) {
   return (
     <View
       style={{
-        backgroundColor: '#020617',
+        backgroundColor: Colors.background,
         borderRadius: 12,
         padding: 16,
         borderWidth: 1,
-        borderColor: '#1e293b',
+        borderColor: Colors.border,
         marginBottom: 12,
       }}
     >
-      <Text style={{ color: '#9ca3af', fontSize: 12 }}>{label}</Text>
+      <Text style={{ color: Colors.text.muted, fontSize: 12 }}>{label}</Text>
       <Text
         style={{
-          color: '#e5e7eb',
+          color: Colors.text.secondary,
           fontSize: 20,
           fontWeight: '700',
           marginTop: 4,
-          color: valueColor ? valueColor : '#ffffff',
+          color: valueColor ? valueColor : Colors.text.white,
         }}
       >
         {value}
@@ -28,7 +29,7 @@ export default function StatCard({ label, value, description, valueColor }) {
       {description ? (
         <Text
           style={{
-            color: '#6b7280',
+            color: Colors.text.subtle,
             fontSize: 12,
             marginTop: 4,
           }}

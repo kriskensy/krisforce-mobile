@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../lib/AuthContext';
+import { Colors } from '../../constants/Colors'
 
 export default function ManagerOnlyScreen() {
   const { signOut } = useAuth();
@@ -13,7 +14,7 @@ export default function ManagerOnlyScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#020617',
+        backgroundColor: Colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 24,
@@ -21,7 +22,7 @@ export default function ManagerOnlyScreen() {
     >
       <Text
         style={{
-          color: '#f97316',
+          color: Colors.status.warning,
           fontSize: 20,
           fontWeight: '700',
           marginBottom: 12,
@@ -32,7 +33,7 @@ export default function ManagerOnlyScreen() {
       </Text>
       <Text
         style={{
-          color: '#e5e7eb',
+          color: Colors.text.secondary,
           fontSize: 14,
           textAlign: 'center',
           marginBottom: 24,
@@ -50,7 +51,7 @@ export default function ManagerOnlyScreen() {
           paddingVertical: 10,
         }}
       >
-        <Text style={{ color: '#e5e7eb', fontWeight: '600' }}>Log out</Text>
+        <Text style={{ color: Colors.text.secondary, fontWeight: '600' }}>Log out</Text>
       </TouchableOpacity>
     </View>
   );

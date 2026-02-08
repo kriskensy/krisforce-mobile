@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
 import { formatCurrency } from '../../../lib/utils/formatCurrency';
+import { Colors } from '../../../constants/Colors'
 
 export default function InvoicesListScreen() {
   const [loading, setLoading] = useState(true);
@@ -43,24 +44,24 @@ export default function InvoicesListScreen() {
       <TouchableOpacity
         onPress={() => router.push(`/invoices/${item.id}`)}
         style={{
-          backgroundColor: '#020617',
+          backgroundColor: Colors.background,
           borderRadius: 12,
           padding: 16,
           borderWidth: 1,
-          borderColor: '#1e293b',
+          borderColor: Colors.border,
           marginBottom: 12,
         }}
       >
-        <Text style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
+        <Text style={{ color: Colors.text.secondary, fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
           {item.invoiceNumber}
         </Text>
-        <Text style={{ color: '#9ca3af', fontSize: 12 }}>
+        <Text style={{ color: Colors.text.muted, fontSize: 12 }}>
           Date: {item.invoiceDate?.slice(0, 10)}
         </Text>
-        <Text style={{ color: '#9ca3af', fontSize: 12 }}>
+        <Text style={{ color: Colors.text.muted, fontSize: 12 }}>
           Status: {item.invoiceStatusName || item.invoiceStatusCode || '—' }
         </Text>
-        <Text style={{ color: '#6b7280', fontSize: 13, marginTop: 4 }}>
+        <Text style={{ color: Colors.text.subtle, fontSize: 13, marginTop: 4 }}>
           Total: {formatCurrency((item.toalAmount ?? 0).toFixed(2), 'EUR')}
         </Text>
       </TouchableOpacity>
@@ -71,7 +72,7 @@ export default function InvoicesListScreen() {
     <AppShell>
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16 }}>
         {loading ? (
-          <ActivityIndicator color="#0ea5e9" />
+          <ActivityIndicator color={Colors.primary} />
         ) : (
           <FlatList
             data={invoices}

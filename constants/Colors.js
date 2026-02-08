@@ -1,6 +1,7 @@
 
 export const Colors = {
   //main
+  appBackground: '#0f172af2',
   background: '#020617',
   border: '#1e293b',
   
@@ -19,6 +20,10 @@ export const Colors = {
   icon: {
     default: '#64748b',
     active: '#0ea5e9',
+  },
+
+  button: {
+    danger: '#b91c1c',
   },
 
   status: {

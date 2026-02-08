@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../lib/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Colors } from '../../constants/Colors'
 
 export default function TopBar() {
   const { profile, logoUrl } = useAuth();
@@ -19,9 +20,9 @@ export default function TopBar() {
         paddingTop: insets.top + 10,
         paddingBottom: 10,
         paddingHorizontal: 16,
-        backgroundColor: '#020617',
+        backgroundColor: Colors.background,
         borderBottomWidth: 1,
-        borderBottomColor: '#1e293b',
+        borderBottomColor: Colors.border,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -29,15 +30,15 @@ export default function TopBar() {
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {profile && (
-          <View style={{ width: 40, height: 40, backgroundColor: '#0ea5e9', borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
+          <View style={{ width: 40, height: 40, backgroundColor: Colors.primary, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
             <Text style={{ color: 'white', fontWeight: 'bold' }}>
               {profile?.firstName?.[0]}{profile?.lastName?.[0]}
             </Text>
           </View>
         )}
         <View>
-          <Text style={{ color: '#9ca3af', fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>{userRole}</Text>
-          <Text style={{ color: '#f9fafb', fontSize: 16, fontWeight: 'bold' }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 10, textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>{userRole}</Text>
+          <Text style={{ color: Colors.text.primary, fontSize: 16, fontWeight: 'bold' }}>
             {fullName}
           </Text>
         </View>

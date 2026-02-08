@@ -5,7 +5,8 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from 'expo-status-bar';
 import TopBar from '../components/layout/TopBar';
-import { AuthProvider, useAuth } from '../lib/AuthContext'; 
+import { AuthProvider, useAuth } from '../lib/AuthContext';
+import { Colors } from '../constants/Colors'
 
 function RootLayoutNav() {
   const {session, loading, isManagerOrAdmin} = useAuth();
@@ -33,19 +34,19 @@ function RootLayoutNav() {
   //spinner
   if (loading) {
     return (
-      <View style={{ flex: 1, backgroundColor: '#020617', alignItems: 'center', justifyContent: 'center' }} >
-        <ActivityIndicator size="large" color="#0ea5e9" />
+      <View style={{ flex: 1, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center' }} >
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }
 
   return (
     <SafeAreaProvider>
-      <StatusBar style="light" backgroundColor="#f3f4f6" />
+      <StatusBar style="light" backgroundColor={Colors.text.primary} />
       
       <Stack screenOptions={{
         header: () => <TopBar />,
-        contentStyle: { backgroundColor: '#f3f4f6' }
+        contentStyle: { backgroundColor: Colors.text.primary }
       }}>
         <Stack.Screen name="auth" options={{ headerShown: false }} />
 

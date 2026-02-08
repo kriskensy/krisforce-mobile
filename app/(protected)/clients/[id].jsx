@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
+import { Colors } from '../../../constants/Colors'
 
 export default function ClientDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -33,7 +34,7 @@ export default function ClientDetailsScreen() {
     return (
       <AppShell>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator color="#0ea5e9" />
+          <ActivityIndicator color={Colors.primary} />
         </View>
       </AppShell>
     );
@@ -43,7 +44,7 @@ export default function ClientDetailsScreen() {
     return (
       <AppShell>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: '#e5e7eb' }}>Client not found.</Text>
+          <Text style={{ color: Colors.text.secondary }}>Client not found.</Text>
         </View>
       </AppShell>
     );
@@ -54,20 +55,20 @@ export default function ClientDetailsScreen() {
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16 }}>
         <View
           style={{
-            backgroundColor: '#020617',
+            backgroundColor: Colors.background,
             borderRadius: 16,
             padding: 20,
             borderWidth: 1,
-            borderColor: '#1e293b',
+            borderColor: Colors.border,
           }}
         >
-          <Text style={{ color: '#e5e7eb', fontSize: 20, fontWeight: '700', marginBottom: 8 }} >
+          <Text style={{ color: Colors.text.secondary, fontSize: 20, fontWeight: '700', marginBottom: 8 }} >
             {client.name}
           </Text>
-          <Text style={{ color: '#9ca3af', fontSize: 14 }}>
+          <Text style={{ color: Colors.text.muted, fontSize: 14 }}>
             NIP: {client.nip || '—'}
           </Text>
-          <Text style={{ color: '#6b7280', fontSize: 13, marginTop: 8 }}>
+          <Text style={{ color: Colors.text.subtle, fontSize: 13, marginTop: 8 }}>
             Created at: {client.created_at?.slice(0, 10)}
           </Text>
         </View>
