@@ -1,83 +1,13 @@
-// import React, { useEffect, useState } from 'react';
-// import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-// import { useRouter } from 'expo-router';
-// import AppShell from '../../../components/layout/AppShell';
-// import { supabase } from '../../../lib/supabase';
-
-// export default function ClientsListScreen() {
-//   const [loading, setLoading] = useState(true);
-//   const [clients, setClients] = useState([]);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     async function loadClients() {
-//       setLoading(true);
-//       const { data, error } = await supabase
-//         .from('clients')
-//         .select('id, name, nip, created_at')
-//         .is('deleted_at', null)
-//         .order('created_at', { ascending: false })
-//         .limit(20);
-
-//       if (!error) {
-//         setClients(data ?? []);
-//       }
-//       setLoading(false);
-//     }
-
-//     loadClients();
-//   }, []);
-
-//   function renderItem({ item }) {
-//     return (
-//       <TouchableOpacity
-//         onPress={() => router.push(`/clients/${item.id}`)}
-//         className="mb-3 rounded-xl border p-4 shadow-sm bg-white border-gray-200 dark:bg-[#020617] dark:border-[#1e293b]"
-//       >
-//         <Text className="text-base font-semibold mb-1 text-gray-900 dark:text-[#e5e7eb]">
-//           {item.name}
-//         </Text>
-//         <Text className="text-xs text-gray-500 dark:text-[#9ca3af]">
-//           NIP: {item.nip}
-//         </Text>
-//         <Text className="text-xs mt-1 text-gray-400 dark:text-[#6b7280]">
-//           Created at: {item.created_at?.slice(0, 10)}
-//         </Text>
-//       </TouchableOpacity>
-//     );
-//   }
-
-//   return (
-//     <AppShell>
-//       <View className="flex-1 px-4 pt-4">
-//         {loading ? (
-//           <ActivityIndicator color="#0ea5e9" />
-//         ) : (
-//           <FlatList
-//             data={clients}
-//             keyExtractor={(item) => item.id}
-//             renderItem={renderItem}
-//             contentContainerStyle={{ paddingBottom: 24 }}
-//           />
-//         )}
-//       </View>
-//     </AppShell>
-//   );
-// }
-
-
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
 import { supabase } from '../../../lib/supabase';
 
-
 export default function ClientsListScreen() {
   const [loading, setLoading] = useState(true);
   const [clients, setClients] = useState([]);
   const router = useRouter();
-
 
   useEffect(() => {
     async function loadClients() {
@@ -89,17 +19,14 @@ export default function ClientsListScreen() {
         .order('created_at', { ascending: false })
         .limit(20);
 
-
       if (!error) {
         setClients(data ?? []);
       }
       setLoading(false);
     }
 
-
     loadClients();
   }, []);
-
 
   function renderItem({ item }) {
     return (
@@ -126,7 +53,6 @@ export default function ClientsListScreen() {
       </TouchableOpacity>
     );
   }
-
 
   return (
     <AppShell>

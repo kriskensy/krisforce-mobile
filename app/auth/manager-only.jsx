@@ -1,41 +1,9 @@
-// import React from 'react';
-// import { View, Text, TouchableOpacity } from 'react-native';
-// import { useAuth } from '../_layout';
-
-// export default function ManagerOnlyScreen() {
-//   const { signOut } = useAuth();
-
-//   return (
-//     <View className="flex-1 items-center justify-center px-6 bg-gray-50 dark:bg-[#020617]">
-      
-//       <Text className="text-xl font-bold mb-3 text-center text-orange-600 dark:text-[#f97316]">
-//         Access restricted
-//       </Text>
-
-//       <Text className="text-sm text-center mb-6 text-gray-700 dark:text-[#e5e7eb]">
-//         This mobile application is available only for users with the Manager role.
-//       </Text>
-
-//       <TouchableOpacity
-//         onPress={signOut}
-//         className="rounded-lg border px-4 py-2.5 bg-white border-gray-300 dark:bg-transparent dark:border-gray-600"
-//       >
-//         <Text className="font-semibold text-gray-700 dark:text-[#e5e7eb]">
-//           Log out
-//         </Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useAuth } from '../_layout';
 
-
 export default function ManagerOnlyScreen() {
   const { signOut } = useAuth();
-
 
   return (
     <View

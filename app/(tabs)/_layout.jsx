@@ -1,50 +1,5 @@
-// import { Tabs } from 'expo-router';
-// import { LayoutDashboard, Layers, Menu as MenuIcon } from 'lucide-react-native';
-
-// export default function TabLayout() {
-
-//   return (
-//     <Tabs
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarStyle: { 
-//             backgroundColor: '#ffffff', 
-//             borderTopColor: '#e5e7eb',
-//             height: 90,
-//             paddingBottom: 30
-//         },
-//         tabBarActiveTintColor: '#0284c7',
-//         tabBarInactiveTintColor: '#94a3b8',
-//       }}
-//     >
-//       <Tabs.Screen
-//         name="dashboard"
-//         options={{
-//           title: 'Dashboard',
-//           tabBarIcon: ({ color }) => <LayoutDashboard size={24} color={color} />,
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="categories"
-//         options={{
-//           title: 'Categories',
-//           tabBarIcon: ({ color }) => <Layers size={24} color={color} />,
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="menu"
-//         options={{
-//           title: 'Menu',
-//           tabBarIcon: ({ color }) => <MenuIcon size={24} color={color} />,
-//         }}
-//       />
-//     </Tabs>
-//   );
-// }
-
 import { Tabs } from 'expo-router';
 import { LayoutDashboard, Layers, Menu as MenuIcon } from 'lucide-react-native';
-
 
 export default function TabLayout() {
   return (

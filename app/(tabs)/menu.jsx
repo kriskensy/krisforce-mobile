@@ -1,59 +1,10 @@
-// import React from 'react';
-// import { View, Text, TouchableOpacity } from 'react-native';
-// import AppShell from '../../components/layout/AppShell';
-// import { useAuth } from '../../lib/AuthContext'; 
-
-// export default function MenuScreen() {
-//   const { profile, signOut } = useAuth();
-
-//   return (
-//     <AppShell>
-//       <View className="flex-1 px-4 pt-6 bg-transparent dark:bg-slate-900/95">
-        
-//         <View className="mb-6 rounded-2xl border p-5 shadow-sm bg-white border-gray-200 dark:bg-[#020617] dark:border-[#1e293b]">
-          
-//           <Text className="text-xs mb-1 text-gray-500 dark:text-[#9ca3af]">
-//             Manager summary
-//           </Text>
-          
-//           <Text className="text-lg font-bold mb-2 text-gray-900 dark:text-[#e5e7eb]">
-//             {profile
-//               ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim()
-//               : '—'}
-//           </Text>
-          
-//           <Text className="text-xs text-gray-500 dark:text-[#9ca3af]">
-//             Role: {profile?.roleName || profile?.roleCode || 'manager'}
-//           </Text>
-          
-//           <Text className="text-xs mt-1 text-gray-500 dark:text-[#9ca3af]">
-//             Email: {profile?.email || '—'}
-//           </Text>
-//         </View>
-
-//         <TouchableOpacity
-//           onPress={signOut}
-//           className="rounded-xl border py-3 items-center bg-white border-red-500 dark:bg-transparent dark:border-red-700"
-//         >
-//           <Text className="font-semibold text-red-600 dark:text-red-300">
-//             Log out
-//           </Text>
-//         </TouchableOpacity>
-//       </View>
-//     </AppShell>
-//   );
-// }
-
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import AppShell from '../../components/layout/AppShell';
-// import { useAuth } from '../_layout';
 import { useAuth } from '../../lib/AuthContext';
-
 
 export default function MenuScreen() {
   const { profile, signOut } = useAuth();
-
 
   return (
     <AppShell>
@@ -62,7 +13,7 @@ export default function MenuScreen() {
           flex: 1,
           paddingHorizontal: 16,
           paddingTop: 24,
-          backgroundColor: 'rgba(15,23,42,0.95)',
+          backgroundColor: '#0f172af2',
         }}
       >
         <View
@@ -97,7 +48,6 @@ export default function MenuScreen() {
             Email: {profile?.email || '—'}
           </Text>
         </View>
-
 
         <TouchableOpacity
           onPress={signOut}
