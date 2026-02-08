@@ -16,18 +16,25 @@ export default function InvoicesListScreen() {
      
       const { data, error } = await supabase
         .from('invoices')
-        .select('id, invoice_number, invoice_date, total_amount, status_id')
+        .select('id, invoice_number, invoice_date, total_amount, invoice_statuses(name, code)')
         .is('deleted_at', null)
         .order('invoice_date', { ascending: false })
         .limit(20);
 
       if (!error) {
-        setInvoices(data ?? []);
+        setInvoices(
+          (data ?? []).map((row) => ({
+            id: row.id,
+            invoiceNumber: row.invoice_number,
+            invoiceDate: row.invoice_date,
+            toalAmount: row.total_amount,
+            invoiceStatusName: row.invoice_statuses?.name,
+            invoiceStatusCode: row.invoice_statuses?.code,
+          })),
+        );
       }
-
       setLoading(false);
     }
-
     loadInvoices();
   }, []);
 
@@ -44,21 +51,17 @@ export default function InvoicesListScreen() {
           marginBottom: 12,
         }}
       >
-        <Text
-          style={{
-            color: '#e5e7eb',
-            fontSize: 16,
-            fontWeight: '600',
-            marginBottom: 4,
-          }}
-        >
-          {item.invoice_number}
+        <Text style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
+          {item.invoiceNumber}
         </Text>
         <Text style={{ color: '#9ca3af', fontSize: 12 }}>
-          Date: {item.invoice_date?.slice(0, 10)}
+          Date: {item.invoiceDate?.slice(0, 10)}
+        </Text>
+        <Text style={{ color: '#9ca3af', fontSize: 12 }}>
+          Status: {item.invoiceStatusName || item.invoiceStatusCode || '—' }
         </Text>
         <Text style={{ color: '#6b7280', fontSize: 13, marginTop: 4 }}>
-          Total: {formatCurrency((item.total_amount ?? 0).toFixed(2), 'EUR')}
+          Total: {formatCurrency((item.toalAmount ?? 0).toFixed(2), 'EUR')}
         </Text>
       </TouchableOpacity>
     );

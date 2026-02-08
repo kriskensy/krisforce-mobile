@@ -24,7 +24,6 @@ export default function ClientDetailsScreen() {
       setLoading(false);
     }
 
-
     if (id) {
       loadClient();
     }
@@ -33,13 +32,7 @@ export default function ClientDetailsScreen() {
   if (loading) {
     return (
       <AppShell>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <ActivityIndicator color="#0ea5e9" />
         </View>
       </AppShell>
@@ -49,13 +42,7 @@ export default function ClientDetailsScreen() {
   if (!client) {
     return (
       <AppShell>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ color: '#e5e7eb' }}>Client not found.</Text>
         </View>
       </AppShell>
@@ -74,14 +61,7 @@ export default function ClientDetailsScreen() {
             borderColor: '#1e293b',
           }}
         >
-          <Text
-            style={{
-              color: '#e5e7eb',
-              fontSize: 20,
-              fontWeight: '700',
-              marginBottom: 8,
-            }}
-          >
+          <Text style={{ color: '#e5e7eb', fontSize: 20, fontWeight: '700', marginBottom: 8 }} >
             {client.name}
           </Text>
           <Text style={{ color: '#9ca3af', fontSize: 14 }}>

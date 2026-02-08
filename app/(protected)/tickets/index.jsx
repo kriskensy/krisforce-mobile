@@ -33,10 +33,8 @@ export default function TicketsListScreen() {
           })),
         );
       }
-
       setLoading(false);
     }
-
     loadTickets();
   }, []);
 
@@ -53,15 +51,7 @@ export default function TicketsListScreen() {
           marginBottom: 12,
         }}
       >
-        <Text
-          style={{
-            color: '#e5e7eb',
-            fontSize: 16,
-            fontWeight: '600',
-            marginBottom: 4,
-          }}
-          numberOfLines={1}
-        >
+        <Text style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }} numberOfLines={1}>
           {item.subject}
         </Text>
         <Text style={{ color: '#9ca3af', fontSize: 12 }}>

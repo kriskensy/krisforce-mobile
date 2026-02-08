@@ -24,7 +24,6 @@ export default function ClientsListScreen() {
       }
       setLoading(false);
     }
-
     loadClients();
   }, []);
 
@@ -41,9 +40,7 @@ export default function ClientsListScreen() {
           marginBottom: 12,
         }}
       >
-        <Text
-          style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }}
-        >
+        <Text style={{ color: '#e5e7eb', fontSize: 16, fontWeight: '600', marginBottom: 4 }}>
           {item.name}
         </Text>
         <Text style={{ color: '#9ca3af', fontSize: 12 }}>NIP: {item.nip}</Text>

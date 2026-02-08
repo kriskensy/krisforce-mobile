@@ -17,9 +17,7 @@ export default function InvoiceDetailsScreen() {
 
       const { data, error } = await supabase
         .from('invoices')
-        .select(
-          'id, invoice_number, invoice_date, due_date, total_amount, paid_amount, status_id',
-        )
+        .select('id, invoice_number, invoice_date, due_date, total_amount, paid_amount, status_id')
         .eq('id', id)
         .single();
 
@@ -38,7 +36,6 @@ export default function InvoiceDetailsScreen() {
           }
         }
       }
-
       setLoading(false);
     }
 
@@ -50,13 +47,7 @@ export default function InvoiceDetailsScreen() {
   if (loading) {
     return (
       <AppShell>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}} >
           <ActivityIndicator color="#0ea5e9" />
         </View>
       </AppShell>
@@ -66,13 +57,7 @@ export default function InvoiceDetailsScreen() {
   if (!invoice) {
     return (
       <AppShell>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} >
           <Text style={{ color: '#e5e7eb' }}>Invoice not found.</Text>
         </View>
       </AppShell>
@@ -95,15 +80,8 @@ export default function InvoiceDetailsScreen() {
             borderColor: '#1e293b',
           }}
         >
-          <Text
-            style={{
-              color: '#e5e7eb',
-              fontSize: 20,
-              fontWeight: '700',
-              marginBottom: 8,
-            }}
-          >
-            {invoice.invoicenumber}
+          <Text style={{ color: '#e5e7eb', fontSize: 20, fontWeight: '700', marginBottom: 8}} >
+            {invoice.invoice_number}
           </Text>
 
           <Text style={{ color: '#9ca3af', fontSize: 14 }}>
