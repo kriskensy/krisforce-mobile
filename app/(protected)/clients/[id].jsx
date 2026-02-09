@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { Colors } from '../../../constants/Colors'
+import { clientData } from '../../../lib/data/clients';
 
 export default function ClientDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -13,11 +13,7 @@ export default function ClientDetailsScreen() {
   useEffect(() => {
     async function loadClient() {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('clients')
-        .select('id, name, nip, created_at')
-        .eq('id', id)
-        .single();
+      const { data, error } = await clientData.getClientById(id);
 
       if (!error) {
         setClient(data);

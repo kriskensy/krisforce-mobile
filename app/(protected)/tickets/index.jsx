@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { Colors } from '../../../constants/Colors'
+import { ticketData } from '../../../lib/data/tickets';
 
 export default function TicketsListScreen() {
   const [loading, setLoading] = useState(true);
@@ -14,12 +14,7 @@ export default function TicketsListScreen() {
     async function loadTickets() {
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from('tickets')
-        .select(`id, subject, created_at, ticket_statuses(name, code), ticket_priorities(name, code)`)
-        .is('deleted_at', null)
-        .order('created_at', { ascending: false })
-        .limit(20);
+      const { data, error } = await ticketData.getAllTickets();
 
       if (!error) {
         setTickets(

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { Colors } from '../../../constants/Colors'
+import { clientData } from '../../../lib/data/clients';
 
 export default function ClientsListScreen() {
   const [loading, setLoading] = useState(true);
@@ -13,12 +13,7 @@ export default function ClientsListScreen() {
   useEffect(() => {
     async function loadClients() {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('clients')
-        .select('id, name, nip, created_at')
-        .is('deleted_at', null)
-        .order('created_at', { ascending: false })
-        .limit(20);
+      const { data, error } = await clientData.getAllClients();
 
       if (!error) {
         setClients(data ?? []);

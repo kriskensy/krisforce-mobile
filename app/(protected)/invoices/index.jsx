@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { useRouter } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { formatCurrency } from '../../../lib/utils/formatCurrency';
 import { Colors } from '../../../constants/Colors'
+import { invoiceData } from '../../../lib/data/invoices';
 
 export default function InvoicesListScreen() {
   const [loading, setLoading] = useState(true);
@@ -15,12 +15,7 @@ export default function InvoicesListScreen() {
     async function loadInvoices() {
       setLoading(true);
      
-      const { data, error } = await supabase
-        .from('invoices')
-        .select('id, invoice_number, invoice_date, total_amount, invoice_statuses(name, code)')
-        .is('deleted_at', null)
-        .order('invoice_date', { ascending: false })
-        .limit(20);
+      const { data, error } = await invoiceData.getAllInvoices();
 
       if (!error) {
         setInvoices(

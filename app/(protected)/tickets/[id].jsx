@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import { User, Clock } from 'lucide-react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { Colors } from '../../../constants/Colors'
+import { ticketData } from '../../../lib/data/tickets';
 
 export default function TicketDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -15,12 +15,7 @@ export default function TicketDetailsScreen() {
     async function loadTicket() {
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from('tickets')
-        .select(`id, ticket_number, subject, clients(name), description, created_at, ticket_statuses(name, code), ticket_priorities(name, code), ticket_comments(id, message, created_at, user_profiles(first_name, last_name))`)
-        .eq('id', id)
-        .order('created_at', { foreignTable: 'ticket_comments', ascending: false })
-        .single();
+      const { data, error } = await ticketData.getTicketById(id);
 
       if (!error && data) {
         setTicket({
@@ -67,7 +62,7 @@ export default function TicketDetailsScreen() {
 
   return (
     <AppShell>
-      <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 16 }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 16, paddingTop: 12 }} contentContainerStyle={{ paddingBottom: 24 }} >
         <View
           style={{
             backgroundColor: Colors.background,
@@ -143,7 +138,7 @@ export default function TicketDetailsScreen() {
             </View>
           )}
         </View>
-      </View>
+      </ScrollView>
     </AppShell>
   );
 }

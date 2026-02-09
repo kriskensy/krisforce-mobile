@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import AppShell from '../../../components/layout/AppShell';
-import { supabase } from '../../../lib/supabase';
 import { formatCurrency } from '../../../lib/utils/formatCurrency';
 import { Colors } from '../../../constants/Colors'
+import { invoiceData } from '../../../lib/data/invoices';
 
 export default function InvoiceDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -16,26 +16,13 @@ export default function InvoiceDetailsScreen() {
     async function loadInvoice() {
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from('invoices')
-        .select('id, invoice_number, invoice_date, due_date, total_amount, paid_amount, status_id')
-        .eq('id', id)
-        .single();
+      const { data, error } = await invoiceData.getInvoiceById(id);
 
       if (!error && data) {
-        setInvoice(data);
-
-        if (data.status_id) {
-          const { data: statusRow } = await supabase
-            .from('invoice_statuses')
-            .select('name, code')
-            .eq('id', data.status_id)
-            .single();
-
-          if (statusRow) {
-            setStatusName(`${statusRow.name} (${statusRow.code})`);
-          }
-        }
+        setInvoice({
+          ...data,
+          statusName: data.invoice_statuses ? `${data.invoice_statuses.name}(${data.invoice_statuses.code})` : '—'
+        });
       }
       setLoading(false);
     }
