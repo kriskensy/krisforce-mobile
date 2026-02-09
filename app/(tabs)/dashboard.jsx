@@ -1,64 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
+import { ScrollView, View, ActivityIndicator } from 'react-native';
 import AppShell from '../../components/layout/AppShell';
-import { supabase } from '../../lib/supabase';
 import { formatCurrency } from '../../lib/utils/formatCurrency';
 import StatCard from '../../components/StatCard';
 import RevenueChart from '../../components/RevenueChart';
 import { Colors } from '../../constants/Colors'
+import { dashboardData } from '../../lib/data/dashboard';
 
 export default function DashboardScreen() {
   const [loading, setLoading] = useState(true);
   const [revenueData, setRevenueData] = useState([]);
-  const [stats, setStats] = useState({
-    totalRevenue: '—',
-    totalDebt: '—',
-    activeOrders: '—',
-    expiringContracts: '-',
-  });
+  const [stats, setStats] = useState(null)
 
   useEffect(() => {
     async function loadStats() {
       setLoading(true);
 
-      const { data: globalRevenue } = await supabase
-        .from('report_global_revenue')
-        .select('*')
-        .order('month_date', { ascending: false })
+      const { data, error } = await dashboardData.getDashboardStats();
 
-      const totalRevenue = globalRevenue?.reduce((acc, row) => acc + Number(row.total ?? 0), 0) ?? 0;
-
-      const { data: clientSummary } = await supabase
-        .from('report_client_summary')
-        .select('current_debt');
-
-      const totalDebt = clientSummary?.reduce((acc, row) => acc + Number(row.current_debt ?? 0), 0) ?? 0;
-
-      const { data: revenueByCategory } = await supabase
-        .from('report_revenue_by_category')
-        .select('category, total')
-
-      setRevenueData(revenueByCategory || []);
-
-      const { data: ordersByStatus } = await supabase
-        .from('report_orders_by_status')
-        .select('*');
-
-      const activeOrders = ordersByStatus?.reduce((acc, row) => acc + Number(row.order_count ?? 0), 0);
-
-      const { data: contractsByStatus } = await supabase
-        .from('report_contracts')
-        .select('*');
-
-      const expiringContracts = contractsByStatus?.filter((row) => row.status === 'Expiring Soon').length;
-
-      setStats({
-        totalRevenue: `${formatCurrency(totalRevenue.toFixed(2), 'EUR')}`,
-        totalDebt: `${formatCurrency(totalDebt.toFixed(2), 'EUR')}`,
-        activeOrders: String(activeOrders ?? 0),
-        expiringContracts: String(expiringContracts ?? 0),
-      });
-
+      if(!error && data) {
+        setStats({
+          totalRevenue: `${formatCurrency(data.totalRevenue.toFixed(2), 'EUR')}`,
+          totalDebt: `${formatCurrency(data.totalDebt.toFixed(2), 'EUR')}`,
+          activeOrders: String(data.activeOrders ?? 0),
+          expiringContracts: String(data.expiringContracts ?? 0),
+        });
+        setRevenueData(data.revenueByCategory || []);
+      }
       setLoading(false);
     }
 
